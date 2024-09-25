@@ -22,7 +22,7 @@ class Account(db.Model):
     uid = mapped_column(db.Integer, nullable=False)
 
     account_type = mapped_column(db.String, nullable=False)
-    balance = mapped_column(db.Integer)
+    balance = mapped_column(db.Float)
 
     def to_dict(self):
         return {

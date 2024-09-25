@@ -34,10 +34,15 @@ class AccountApi(Resource):
 
         user = User.query.filter_by(username=username).first()
 
+
+        # Check if a initial balance was requested
+        initial_balance = request.json['initial_balance']
+
+
         account = Account()
         account.uid = user.id
         account.account_type = "Savings"
-        account.balance = 0
+        account.balance = initial_balance
 
         # Write to Database
         db.session.add(account)
