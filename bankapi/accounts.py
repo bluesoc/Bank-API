@@ -48,4 +48,8 @@ class AccountApi(Resource):
         db.session.add(account)
         db.session.commit()
 
-        return {'message': 'Account created'}
+        return {'message': 'Account created',
+                'id': account.id,
+                'uid': account.uid,
+                'balance': account.balance,
+            }
