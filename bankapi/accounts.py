@@ -8,21 +8,24 @@ from .app import db
 from .db import User
 from .db import Account
 
+
 class AccountApi(Resource):
     @jwt_required()
     def get(self):
         # Return User Accounts
         user = get_jwt_identity()
 
+        # Get User Model
         db_user = User.query.filter_by(username=user).first()
 
-        print(db_user.id)
-
+        # Get all Accounts associated with User
         accounts = Account.query.filter_by(uid=db_user.id)
 
-        all = jsonify([account.to_dict() for account in accounts])
+        # Accounts in JSON format
+        user_accounts = jsonify([account.to_dict() for account in accounts])
 
-        return {'message': all}
+        return user_accounts
+
 
     @jwt_required()
     def post(self):
@@ -39,6 +42,5 @@ class AccountApi(Resource):
         # Write to Database
         db.session.add(account)
         db.session.commit()
-
 
         return {'message': 'Account created'}
