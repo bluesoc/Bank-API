@@ -1,8 +1,11 @@
-from flask import request
+from flask import request, jsonify
 from flask_restful import Resource
 
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
+
+from flask_jwt_extended import create_access_token, \
+    jwt_required
 
 from .app import db
 from .db import User
@@ -27,9 +30,12 @@ class UserApi(Resource):
         return False
 
 
-    def login(self):
-        print("Login...")
+    def generateJWT(self, username):
+        access_token = create_access_token(identity=username)
+        return access_token
 
+
+    def login(self):
         try:
             username = request.json['username']
 
@@ -44,7 +50,12 @@ class UserApi(Resource):
             # check_password_hash(<hashed_password>, <plain_password)
             if check_password_hash(db_user.password, password):
                 # Return Token
-                return {'message': 'Login successful'}
+
+                token = self.generateJWT(db_user.username)
+
+                return {'message': 'Login successful',
+                        'token': token,
+                        }
 
 
             return {'message': 'Invalid username or password'}

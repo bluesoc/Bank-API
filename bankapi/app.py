@@ -6,11 +6,17 @@ from flask_restful import Api
 
 from flask_sqlalchemy import SQLAlchemy
 
+from flask_jwt_extended import JWTManager
+
 app = Flask(__name__)
 api = Api(app)
 
 # Generate 32 bytes long Secret_Key
 app.secret_key = secrets.token_hex(16)
+
+# JWT
+app.config['JWT_SECRET_KEY'] = secrets.token_hex(16)
+jwt = JWTManager(app)
 
 
 # Database Filename
