@@ -4,8 +4,7 @@ from flask_restful import Resource
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 
-from flask_jwt_extended import create_access_token, \
-    jwt_required
+from flask_jwt_extended import create_access_token
 
 from .app import db
 from .db import User

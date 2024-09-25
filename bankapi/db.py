@@ -16,9 +16,11 @@ class User(db.Model):
             'password': self.password,
         }
 
+
 class Account(db.Model):
     id = mapped_column(db.Integer, primary_key=True)
-    
+    uid = mapped_column(db.Integer, nullable=False)
+
     account_type = mapped_column(db.String, nullable=False)
     balance = mapped_column(db.Integer)
 

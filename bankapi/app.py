@@ -37,6 +37,7 @@ with app.app_context():
 
     # Import API
     from .users import UserApi
+    from .accounts import AccountApi
 
 
 '''
@@ -57,3 +58,4 @@ with app.app_context():
 '''
 
 api.add_resource(UserApi, '/register/', '/login/')
+api.add_resource(AccountApi, '/accounts/')
