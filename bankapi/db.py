@@ -31,3 +31,14 @@ class Account(db.Model):
             'account_type': self.account_type,
             'balance': self.balance,
         }
+
+
+class Transaction(db.Model):
+    id = mapped_column(db.Integer, primary_key=True)
+    uid = mapped_column(db.Integer, nullable=False)
+
+    # User id
+    sender = mapped_column(db.Integer)
+    receiver = mapped_column(db.Integer)
+
+    amount = mapped_column(db.Float)
