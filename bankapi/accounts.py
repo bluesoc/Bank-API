@@ -11,7 +11,7 @@ from .db import Account
 
 class AccountApi(Resource):
     @jwt_required()
-    def get(self):
+    def get(self, id=None):
         # Return User Accounts
         user = get_jwt_identity()
 
@@ -36,8 +36,11 @@ class AccountApi(Resource):
 
 
         # Check if a initial balance was requested
-        initial_balance = request.json['initial_balance']
-
+        try:
+            initial_balance = request.json['initial_balance']
+        except Exception as ERR:
+            print("Exception ", ERR)
+            initial_balance = 0
 
         account = Account()
         account.uid = user.id
@@ -52,4 +55,4 @@ class AccountApi(Resource):
                 'id': account.id,
                 'uid': account.uid,
                 'balance': account.balance,
-            }
+            }, 200

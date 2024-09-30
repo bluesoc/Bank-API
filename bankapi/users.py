@@ -91,4 +91,4 @@ class UserApi(Resource):
         return {'message': "User registered",
                 'id': user.id,
                 'username': user.username,
-        }
+        }, 200
