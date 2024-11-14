@@ -6,8 +6,8 @@ from werkzeug.security import check_password_hash
 
 from flask_jwt_extended import create_access_token
 
-from .app import db
-from .db import User
+from api.database import db
+from api.models import User
 
 
 class UserApi(Resource):
@@ -20,7 +20,6 @@ class UserApi(Resource):
         elif request.path == "/register/":
             return self.register()
 
-
     def userExist(self, username):
         db_user = User.query.filter_by(username=username).first()
 
@@ -28,23 +27,20 @@ class UserApi(Resource):
             return True
         return False
 
-
     def generateJWT(self, username):
         access_token = create_access_token(identity=username)
         return access_token
-
 
     def login(self):
         try:
             username = request.json['username']
 
             db_user = User.query.filter_by(username=username).first()
-            
+
             if not db_user:
                 return {'message': 'User do not exists'}, 400
 
             password = request.json['password']
-
 
             # check_password_hash(<hashed_password>, <plain_password)
             if check_password_hash(db_user.password, password):
@@ -56,12 +52,10 @@ class UserApi(Resource):
                         'token': token,
                         }
 
-
             return {'message': 'Invalid username or password'}
 
         except Exception as ERR:
             print("EXCEPTION: ", ERR)
-
 
     def register(self):
         print("registering...")
@@ -91,4 +85,4 @@ class UserApi(Resource):
         return {'message': "User registered",
                 'id': user.id,
                 'username': user.username,
-        }, 200
+                }, 200

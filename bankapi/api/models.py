@@ -1,8 +1,10 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import DateTime, func
 
 from sqlalchemy.orm import mapped_column
 
-from .app import db
+from api.database import db
+
 
 class User(db.Model):
     id = mapped_column(db.Integer, primary_key=True)
@@ -35,10 +37,12 @@ class Account(db.Model):
 
 class Transaction(db.Model):
     id = mapped_column(db.Integer, primary_key=True)
-    uid = mapped_column(db.Integer, nullable=False)
+    user_uid = mapped_column(db.Integer, nullable=False)
 
     # User id
-    sender = mapped_column(db.Integer)
-    receiver = mapped_column(db.Integer)
+    account_sender = mapped_column(db.Integer)
+    account_receiver = mapped_column(db.Integer)
 
     amount = mapped_column(db.Float)
+
+    created_at = mapped_column(DateTime, server_default=func.now())

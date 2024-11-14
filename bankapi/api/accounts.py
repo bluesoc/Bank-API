@@ -4,9 +4,18 @@ from flask_restful import Resource
 from flask_jwt_extended import jwt_required, \
     get_jwt_identity
 
-from .app import db
-from .db import User
-from .db import Account
+from api.database import db
+from api.models import User, Account
+
+
+class AdminApi(Resource):
+    def get(self):
+        print("/ADMIN")
+        accounts = Account.query.all()
+
+        user_accounts = jsonify([account.to_dict() for account in accounts])
+
+        return user_accounts
 
 
 class AccountApi(Resource):
@@ -26,14 +35,12 @@ class AccountApi(Resource):
 
         return user_accounts
 
-
     @jwt_required()
     def post(self):
         # Create Accounts
         username = get_jwt_identity()
 
         user = User.query.filter_by(username=username).first()
-
 
         # Check if a initial balance was requested
         try:
@@ -55,4 +62,4 @@ class AccountApi(Resource):
                 'id': account.id,
                 'uid': account.uid,
                 'balance': account.balance,
-            }, 200
+                }, 200
