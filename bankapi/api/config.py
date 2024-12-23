@@ -24,7 +24,7 @@ def return_db_config():
 class Config:
     # Setup SECRET_KEY
     SECRET_KEY = getenv('SECRET_KEY', generate_secret_key())
-    JWT_SECRET_KEY = generate_secret_key()
+    JWT_SECRET_KEY = getenv('JWT_SECRET_KEY', generate_secret_key())
 
     SQLALCHEMY_DATABASE_URI = return_db_config()
     SQLALCHEMY_TRACK_MODIFICATIONS = False
