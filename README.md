@@ -1,6 +1,7 @@
 # Bank-API
 RESTFul Bank API, with transaction logging and authentication system.
 
+⚠️ In Development 🌶️
 
 ### Tech Stack
 
@@ -16,6 +17,3 @@ RESTFul Bank API, with transaction logging and authentication system.
 | POST   | /login           | Authenticates a user and generates a JWT token. |
 | POST   | /accounts        | Creates a new account associated with the user. |
 | GET    | /accounts        | Returns the account information of the authenticated user. |
-
-
-⚠️ In Development 🌶️
