@@ -13,6 +13,8 @@ from api.database import db
 from api.users import UserApi
 # from api.transactions import TransactionApi
 from api.accounts import AccountApi, AdminApi
+from api.transactions import TransactionApi
+
 
 app = Flask(__name__)
 api = Api(app)
@@ -35,6 +37,7 @@ with app.app_context():
 api.add_resource(UserApi, '/register/', '/login/')
 api.add_resource(AccountApi, '/accounts/')
 
-api.add_resource(AdminApi, "/admin")
+api.add_resource(TransactionApi, '/transactions/')
 
-# api.add_resource(TransactionApi, '/transactions/')
+# For tests only
+# api.add_resource(AdminApi, "/admin")
