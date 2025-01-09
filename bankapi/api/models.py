@@ -34,6 +34,9 @@ class Account(db.Model):
             'balance': self.balance,
         }
 
+    def __str__(self):
+        return f"{self.id} {self.uid}"
+
 
 class Transaction(db.Model):
     id = mapped_column(db.Integer, primary_key=True)
