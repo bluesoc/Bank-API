@@ -37,7 +37,7 @@ class AccountApi(Resource):
 
     @jwt_required()
     def post(self):
-        # Create Accounts
+        # Create Account
         username = get_jwt_identity()
 
         user = User.query.filter_by(username=username).first()
@@ -49,16 +49,20 @@ class AccountApi(Resource):
             print("Exception ", ERR)
             initial_balance = 0
 
-        account = Account()
-        account.uid = user.id
-        account.account_type = "Savings"
+        account = Account.query.filter_by(uid=user.id).first()
+
+        if not account:
+            account = Account()
+            account.uid = user.id
+            account.account_type = "Debit"
+
         account.balance = initial_balance
 
         # Write to Database
         db.session.add(account)
         db.session.commit()
 
-        return {'message': 'Account created',
+        return {'msg': 'Account Updated',
                 'id': account.id,
                 'uid': account.uid,
                 'balance': account.balance,
