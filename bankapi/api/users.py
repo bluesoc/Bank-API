@@ -67,9 +67,6 @@ class UserApi(Resource):
 
             password = generate_password_hash(request.json['password'])
 
-            # PRINT TEST
-            print(username, password)
-
             user = User()
             user.username = username
             user.password = password
