@@ -10,11 +10,8 @@ from api.models import User, Account
 
 class AdminApi(Resource):
     def get(self):
-        print("/ADMIN")
         accounts = Account.query.all()
-
         user_accounts = jsonify([account.to_dict() for account in accounts])
-
         return user_accounts
 
 
