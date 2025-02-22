@@ -58,7 +58,6 @@ class UserApi(Resource):
             print("EXCEPTION: ", ERR)
 
     def register(self):
-        print("registering...")
         try:
             username = request.json['username']
 
@@ -76,7 +75,8 @@ class UserApi(Resource):
             db.session.commit()
 
         except Exception as ERR:
-            print("EXCEPTION:", ERR)
+            print("EXCEPTION: ", ERR)
+            return {'message': 'Bad request'}, 400
 
         # Return User Id
         return {'message': "User registered",
