@@ -9,12 +9,32 @@ from flask_jwt_extended import JWTManager
 
 from datetime import timedelta
 
+from gunicorn.app.base import BaseApplication
+
 from api.config import Config
 from api.database import db
 
 from api.users import UserApi
 from api.accounts import AccountApi, AdminApi
 from api.transactions import TransactionApi
+
+
+class GunicornApplication(BaseApplication):
+    def __init__(self, app, options=None):
+        self.options = options or {}
+        self.app = app
+        super().__init__()
+
+    def load(self):
+        return self.app
+
+    def load_config(self):
+        config = {
+            'bind': '0.0.0.0:5000',
+            'workers': 4,
+        }
+        for key, value in config.items():
+            self.cfg.set(key, value)
 
 
 app = Flask(__name__)
@@ -47,3 +67,8 @@ api.add_resource(TransactionApi, '/transactions/')
 if app.config["ENV"] == "development":
     # Allow /admin endpoint during development
     api.add_resource(AdminApi, "/admin")
+
+
+if __name__ == '__main__':
+    app_instance = GunicornApplication(app)
+    app_instance.run()
